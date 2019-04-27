@@ -21,7 +21,7 @@ describe('SigfoxApi test', () => {
     it('should return device obj', async () => {
       nock('https://api.sigfox.com/v2')
         .get(`/devices/9E1F98`)
-        .reply(200, { message: 'test' })
+        .reply(200)
       const sigfox = new SigfoxApi({} as ConfigParams)
       const result = await sigfox.getDeviceInfo('9E1F98')
       expect(result).toMatchSnapshot()

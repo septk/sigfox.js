@@ -2,9 +2,12 @@ import * as nock from 'nock'
 
 import SigfoxApi from '../src/sigfox-js'
 import { ConfigParams } from '../src/types/config-params'
+import { API_CONFIG } from '../src/config/constants'
+
 /**
  * SigfoxApi test
  */
+
 describe('SigfoxApi test', () => {
   it('should be a class', () => {
     const sigfox = new SigfoxApi({} as ConfigParams)
@@ -19,7 +22,7 @@ describe('SigfoxApi test', () => {
 
   describe('getDeviceInfo() call', () => {
     it('should return device obj', async () => {
-      nock('https://api.sigfox.com/v2')
+      nock(API_CONFIG.baseURL)
         .get(`/devices/9E1F98`)
         .reply(200)
       const sigfox = new SigfoxApi({} as ConfigParams)
@@ -29,10 +32,10 @@ describe('SigfoxApi test', () => {
 
     it('should return error', async () => {
       const sigfox = new SigfoxApi({} as ConfigParams)
-      nock('https://api.sigfox.com/v2')
-        .get(`/devices/9E1F98`)
-        .reply(400, { message: 'error' })
       try {
+        nock(API_CONFIG.baseURL)
+          .get(`/devices/9E1F98`)
+          .reply(404)
         await sigfox.getDeviceInfo('9E1F98')
       } catch (error) {
         expect(error).toMatchSnapshot()

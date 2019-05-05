@@ -1,5 +1,5 @@
 const { cd, exec, echo, touch } = require('shelljs')
-import { readFileSync } from 'fs'
+const { readFileSync } = require('fs')
 const url = require('url')
 
 let repoUrl

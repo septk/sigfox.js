@@ -22,6 +22,11 @@ export interface Device {
   activable: boolean
 }
 
+export interface DeviceSingle {
+  id: string
+  name: string
+}
+
 export interface Location {
   lat: number
   lng: number

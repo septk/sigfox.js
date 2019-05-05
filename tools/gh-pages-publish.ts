@@ -1,9 +1,9 @@
 const { cd, exec, echo, touch } = require('shelljs')
-const { readFileSync } = require('fs')
+import { readFileSync } from 'fs'
 const url = require('url')
 
 let repoUrl
-let pkg = JSON.parse(readFileSync('package.json') as any)
+const pkg = JSON.parse(readFileSync('package.json') as any)
 if (typeof pkg.repository === 'object') {
   if (!pkg.repository.hasOwnProperty('url')) {
     throw new Error('URL does not exist in repository section')

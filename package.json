@@ -1,7 +1,7 @@
 {
   "name": "sigfox-js",
   "version": "0.0.0-development",
-  "description": "",
+  "description": "Sigfox API wrapper written with TypeScript",
   "keywords": [],
   "main": "dist/sigfox-js.umd.js",
   "module": "dist/sigfox-js.es5.js",

@@ -1,6 +1,3 @@
-import * as nock from 'nock'
-
-import { API_CONFIG } from '../src/config/constants'
 import { Devices } from '../src/modules/devices'
 
 describe('Devices Test', () => {

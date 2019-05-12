@@ -1,11 +1,10 @@
 import { RootObject, ModemCertificate } from '../types/devices/getAllDevices'
 import { Requester } from '../helpers/requester'
+import { ModuleBase } from '../shared/base-class-module'
 
-export class Devices {
-  requester: Requester
-
+export class Devices extends ModuleBase {
   constructor(requester: Requester) {
-    this.requester = requester
+    super(requester)
   }
 
   /**
@@ -13,7 +12,7 @@ export class Devices {
    * HTTP GET /devices/${deviceId}
    * @returns {device}
    */
-  public async getDeviceInfo<RootObject>(deviceId: string): Promise<RootObject> {
+  public getDeviceInfo<RootObject>(deviceId: string): Promise<RootObject> {
     const infoDevice = {
       url: `/devices/${deviceId}`
     }

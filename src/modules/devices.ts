@@ -1,15 +1,11 @@
-import axios, { AxiosInstance } from 'axios'
-
 import { RootObject, ModemCertificate } from '../types/devices/getAllDevices'
-import { API_CONFIG } from '../config/constants'
+import { Requester } from '../helpers/requester'
 
 export class Devices {
-  rest: AxiosInstance
-  config: object
+  requester: Requester
 
-  constructor(config: object) {
-    this.rest = axios.create({ baseURL: API_CONFIG.baseURL })
-    this.config = config
+  constructor(requester: Requester) {
+    this.requester = requester
   }
 
   /**
@@ -17,11 +13,12 @@ export class Devices {
    * HTTP GET /devices/${deviceId}
    * @returns {device}
    */
-  public getDeviceInfo(deviceId: string): Promise<RootObject> {
-    return this.rest
-      .get<RootObject>(API_CONFIG.baseURL + `/devices/${deviceId}`, this.config)
-      .then(response => response.data)
-      .catch(error => error.response.statusText)
+  public async getDeviceInfo<RootObject>(deviceId: string): Promise<RootObject> {
+    const infoDevice = {
+      url: `/devices/${deviceId}`
+    }
+
+    return this.requester.get<RootObject>(infoDevice)
   }
 
   /**
@@ -31,13 +28,11 @@ export class Devices {
    * @returns [Devices]
    */
   public getAllDevices(): Promise<RootObject> {
-    return this.rest
-      .get<RootObject>(
-        API_CONFIG.baseURL + `/devices/?deep=false&sort=name&limit=100&offset=0`,
-        this.config
-      )
-      .then(response => response.data)
-      .catch(error => error.response.statusText)
+    const infoDevice = {
+      url: `/devices/?deep=false&sort=name&limit=100&offset=0`
+    }
+
+    return this.requester.get<RootObject>(infoDevice)
   }
 
   /**
@@ -46,10 +41,11 @@ export class Devices {
    * @returns [Callbacks - Errors]
    */
   public getCallbacksNotDelivered(deviceId: string) {
-    return this.rest
-      .get(API_CONFIG.baseURL + `/devices/${deviceId}/callbacks-not-delivered`, this.config)
-      .then(response => response.data)
-      .catch(error => error.response.statusText)
+    const infoDevice = {
+      url: `/devices/${deviceId}/callbacks-not-delivered`
+    }
+
+    return this.requester.get(infoDevice)
   }
 
   /**
@@ -58,13 +54,11 @@ export class Devices {
    * @returns {ModemCertificate}
    */
   public getModemCert(deviceId: string): Promise<ModemCertificate> {
-    return this.rest
-      .get<ModemCertificate>(
-        API_CONFIG.baseURL + `/devices/${deviceId}/certificate/modem`,
-        this.config
-      )
-      .then(response => response.data)
-      .catch(error => error.response.statusText)
+    const infoDevice = {
+      url: `/devices/${deviceId}/certificate/modem`
+    }
+
+    return this.requester.get<ModemCertificate>(infoDevice)
   }
 
   /**
@@ -73,10 +67,11 @@ export class Devices {
    * @returns {ProductCertificate}
    */
   public getProductCert(deviceId: string) {
-    return this.rest
-      .get(API_CONFIG.baseURL + `/devices/${deviceId}/certificate/product`, this.config)
-      .then(response => response.data)
-      .catch(error => error.response.statusText)
+    const infoDevice = {
+      url: `/devices/${deviceId}/certificate/product`
+    }
+
+    return this.requester.get(infoDevice)
   }
 
   /**
@@ -85,10 +80,11 @@ export class Devices {
    * @returns {id, deviceConsumptions}
    */
   public getDeviceConsYearly(deviceId: string, year: number) {
-    return this.rest
-      .get(API_CONFIG.baseURL + `/devices/${deviceId}/consumption/${year}`, this.config)
-      .then(response => response.data)
-      .catch(error => error.response.statusText)
+    const infoDevice = {
+      url: `/devices/${deviceId}/consumption/${year}`
+    }
+
+    return this.requester.get(infoDevice)
   }
 
   /**
@@ -97,10 +93,11 @@ export class Devices {
    * @returns {id, deviceConsumptions}
    */
   public getDeviceConsMonthly(deviceId: string, year: number, month: number) {
-    return this.rest
-      .get(API_CONFIG.baseURL + `/devices/${deviceId}/consumption/${year}/${month}`, this.config)
-      .then(response => response.data)
-      .catch(error => error.response.statusText)
+    const infoDevice = {
+      url: `/devices/${deviceId}/consumption/${year}/${month}`
+    }
+
+    return this.requester.get(infoDevice)
   }
 
   /**
@@ -109,10 +106,11 @@ export class Devices {
    * @returns {infoMessages}
    */
   public getMessagesList(deviceId: string) {
-    return this.rest
-      .get(API_CONFIG.baseURL + `/devices/${deviceId}/messages`, this.config)
-      .then(response => response.data)
-      .catch(error => error.response.statusText)
+    const infoDevice = {
+      url: `/devices/${deviceId}/messages`
+    }
+
+    return this.requester.get(infoDevice)
   }
 
   /**
@@ -121,10 +119,11 @@ export class Devices {
    * @returns {lastDay, lastWeek, lastMonth}
    */
   public getMessagesMetric(deviceId: string) {
-    return this.rest
-      .get(API_CONFIG.baseURL + `/devices/${deviceId}/messages/metric`, this.config)
-      .then(response => response.data)
-      .catch(error => error.response.statusText)
+    const infoDevice = {
+      url: `/devices/${deviceId}/messages/metric`
+    }
+
+    return this.requester.get(infoDevice)
   }
 
   /**
@@ -133,10 +132,11 @@ export class Devices {
    * @returns {data}
    */
   public getLocations(deviceId: string) {
-    return this.rest
-      .get(API_CONFIG.baseURL + `/devices/${deviceId}/locations`, this.config)
-      .then(response => response.data)
-      .catch(error => error.response.statusText)
+    const infoDevice = {
+      url: `/devices/${deviceId}/locations`
+    }
+
+    return this.requester.get(infoDevice)
   }
 
   /**
@@ -145,9 +145,10 @@ export class Devices {
    * @returns {jobDone, states}
    */
   public unsubscribeActions(jobId: string) {
-    return this.rest
-      .get(API_CONFIG.baseURL + `/devices/bulk/unsubscribe/${jobId}`, this.config)
-      .then(response => response.data)
-      .catch(error => error.response.statusText)
+    const infoDevice = {
+      url: `/devices/bulk/unsubscribe/${jobId}`
+    }
+
+    return this.requester.get(infoDevice)
   }
 }

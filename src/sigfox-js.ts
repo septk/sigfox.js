@@ -1,6 +1,7 @@
 import { ConfigParams } from './types/config-params'
 import { API_CONFIG } from './config/constants'
 import { Devices } from './modules/devices'
+import { Requester } from './helpers/requester'
 
 /**
  * @class SigfoxApiWrapper
@@ -10,7 +11,7 @@ import { Devices } from './modules/devices'
 export default class SigfoxApi {
   public customParams: object
   public devices: Devices
-
+  public requester: Requester
   /**
    * @constructor
    * @param {ConfigParams} customParams ID Client Setup
@@ -20,6 +21,7 @@ export default class SigfoxApi {
       auth: ConfigParams,
       API_CONFIG
     }
-    this.devices = new Devices(this.customParams)
+    this.requester = new Requester(this.customParams)
+    this.devices = new Devices(this.requester)
   }
 }

@@ -1,8 +1,7 @@
 import { ConfigParams } from './types/config-params'
-import { API_CONFIG } from './config/constants'
 import { Devices } from './modules/devices'
 import { Requester } from './helpers/requester'
-
+import { API_CONFIG } from './config/constants'
 /**
  * @class SigfoxApiWrapper
  *

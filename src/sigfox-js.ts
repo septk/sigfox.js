@@ -1,6 +1,7 @@
-import { ConfigParams } from '../../core/types/config-params'
-import { Devices } from '../devices/devices'
-import { Requester } from '../../core/helpers/requester'
+import { ConfigParams } from './core/types/config-params'
+import { Requester } from './core/helpers/requester'
+
+import { Devices } from './modules/devices/devices'
 
 /**
  * @class SigfoxApiWrapper
@@ -8,7 +9,6 @@ import { Requester } from '../../core/helpers/requester'
  */
 export default class SigfoxApi {
   public requester: Requester
-
   public devices: Devices
 
   /**

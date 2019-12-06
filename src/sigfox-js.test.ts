@@ -1,6 +1,6 @@
-import SigfoxApi from '../sigfox-js'
-import { Requester } from '../../../core/helpers/requester'
-import { ConfigParams } from '../../../core/types/config-params'
+import SigfoxApi from './sigfox-js'
+import { ConfigParams } from './core/types/config-params'
+import { Requester } from './core/helpers/requester'
 
 /**
  * SigfoxApi test

@@ -1,8 +1,12 @@
 # SigfoxJS
 
-![Sigfox Logo img](https://temp.iotdk.dk/wp-content/uploads/2018/01/Sigfox_Logo_RGB_R-300x175.png )
+![Sigfox Logo img](https://www.logosvgpng.com/wp-content/uploads/2018/03/sigfox-logo-vector.png)
 
 ## [WIP]
+
+```bash
+npm install sigfox-js --save
+```
 
 ```javascript
 const SigfoxApi = require('sigfox-js');
@@ -18,8 +22,8 @@ const infoDevices = await connection.devices.getAllDevices();
 #### To Do:
 
 - Users [x]
-- Coverages [ ]
-- Devices [ ]
+- Coverages [x]
+- Devices [x]
 - Devices Types [ ]
 - Groups [ ]
 - Tiles [ ]

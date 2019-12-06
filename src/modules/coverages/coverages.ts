@@ -1,10 +1,19 @@
-import { Requester } from '../helpers/requester'
-import { GlobalPredictions, Redundancy } from '../types/coverages/predictions'
-import { ModuleBase } from '../shared/base-class-module'
+import { Requester } from '../../core/helpers/requester'
+import { GlobalPredictions, Redundancy } from './types/predictions'
+import { ModuleBase } from '../../core/base/base-class-module'
 
 export class Coverages extends ModuleBase {
+  private static instance: Coverages
+
   constructor(requester: Requester) {
     super(requester)
+  }
+
+  public static getInstance(config: Requester): Coverages {
+    if (!Coverages.instance) {
+      Coverages.instance = new Coverages(config)
+    }
+    return Coverages.instance
   }
 
   /**

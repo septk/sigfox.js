@@ -1,17 +1,37 @@
-We're really glad you're reading this, because we need volunteer developers to help this project come to fruition. 👏
+# Contributing
 
-## Instructions
+Thanks for helping out.
 
-These steps will guide you through contributing to this project:
+## Setup
 
-- Fork the repo
-- Clone it and install dependencies
+Node.js 22 or later.
 
-		git clone https://github.com/septk/sigfox.js
-		npm install
+```sh
+git clone https://github.com/septk/sigfox.js
+cd sigfox.js
+npm install
+```
 
-Keep in mind that after running `npm install` the git repo is reset. So a good way to cope with this is to have a copy of the folder to push the changes, and the other to try them.
+## Before opening a PR
 
-Make and commit your changes. Make sure the commands npm run build and npm run test:prod are working.
+```sh
+npm run check   # lint + typecheck + tests (with coverage thresholds) + build
+npm run format  # auto-fix formatting and import order
+```
 
-Finally send a [GitHub Pull Request](https://github.com/septk/sigfox.js/compare?expand=1) with a clear list of what you've done (read more [about pull requests](https://help.github.com/articles/about-pull-requests/)). Make sure all of your commits are atomic (one feature per commit).
+Every endpoint needs a test that asserts the exact URL and query string it calls; see
+`test/devices.test.ts`. Tests never hit the real API: pass a fake `fetch` (see `test/helpers.ts`).
+
+## Adding an endpoint
+
+1. Add the response and parameter types under `src/types/`.
+2. Add the method to the resource class under `src/resources/` (or a new resource, wired in
+   `src/client.ts` and exported from `src/index.ts`). List endpoints return a `Paginator`.
+3. Add it to the table in `README.md` and a line to `CHANGELOG.md`.
+
+## Releasing
+
+1. Bump `version` in `package.json` and `src/version.ts` (a test checks they match) and update
+   `CHANGELOG.md`.
+2. Merge to `master`, then publish a GitHub release tagged `vX.Y.Z`. The Release workflow publishes
+   to npm.

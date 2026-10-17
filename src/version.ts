@@ -1,2 +1,7 @@
-/** Library version, sent in the User-Agent header. Kept in sync with package.json by a test. */
-export const VERSION = '2.0.0'
+declare const __SIGFOX_VERSION__: string
+
+/**
+ * Library version, sent in the User-Agent header. Injected at build time from package.json,
+ * whose version semantic-release sets right before publishing.
+ */
+export const VERSION: string = __SIGFOX_VERSION__

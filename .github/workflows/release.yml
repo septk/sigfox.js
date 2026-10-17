@@ -1,30 +1,48 @@
-# Publishes to npm when a GitHub release is published.
-# Bump "version" in package.json and src/version.ts, merge, then create a release tagged vX.Y.Z.
+# Fully automatic releases, like the old Travis + semantic-release setup.
 #
-# Uses npm trusted publishing (OIDC): no NPM_TOKEN secret needed. One-time setup on npmjs.com:
-# package "sigfox-js" → Settings → Trusted publishing → GitHub Actions,
+# Every push to master is analysed by semantic-release from the Conventional Commit messages
+# since the last tag:
+#   fix: …               → patch (2.0.1)
+#   feat: …              → minor (2.1.0)
+#   feat!: … / BREAKING CHANGE: in the body → major (3.0.0)
+#   docs:, chore:, test:, ci:, refactor: … → no release
+# When there is something to release it publishes to npm, creates the vX.Y.Z tag and a GitHub
+# release with generated notes. With squash merges, the PR title is the commit message, which is
+# why the "PR title" workflow checks it.
+#
+# npm auth uses trusted publishing (OIDC), so no NPM_TOKEN secret is needed. One-time setup on
+# npmjs.com: package "sigfox-js" → Settings → Trusted publishing → GitHub Actions,
 # repository septk/sigfox.js, workflow release.yml.
 name: Release
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [master]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 permissions:
-  contents: read
-  id-token: write
+  contents: write # tag + GitHub release
+  issues: write # comment on issues fixed by a release
+  pull-requests: write # comment on PRs included in a release
+  id-token: write # npm trusted publishing + provenance
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # semantic-release needs the full history and tags
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          registry-url: https://registry.npmjs.org
-      - run: npm install -g npm@latest
+          cache: npm
+      - run: npm install -g npm@latest # trusted publishing needs npm 11.5+
       - run: npm ci
-      - name: Tag matches package.json
-        run: test "v$(node -p 'require("./package.json").version')" = "${GITHUB_REF_NAME}"
-      - run: npm publish --access public
+      - run: npm run check
+      - run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

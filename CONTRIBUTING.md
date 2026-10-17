@@ -27,11 +27,20 @@ Every endpoint needs a test that asserts the exact URL and query string it calls
 1. Add the response and parameter types under `src/types/`.
 2. Add the method to the resource class under `src/resources/` (or a new resource, wired in
    `src/client.ts` and exported from `src/index.ts`). List endpoints return a `Paginator`.
-3. Add it to the table in `README.md` and a line to `CHANGELOG.md`.
+3. Add it to the table in `README.md`.
 
 ## Releasing
 
-1. Bump `version` in `package.json` and `src/version.ts` (a test checks they match) and update
-   `CHANGELOG.md`.
-2. Merge to `master`, then publish a GitHub release tagged `vX.Y.Z`. The Release workflow publishes
-   to npm.
+Releases are automatic. Every merge to `master` runs semantic-release, which reads the
+Conventional Commit messages since the last tag, picks the version, publishes to npm and writes
+the GitHub release notes. Never edit `version` in `package.json` by hand.
+
+| Commit / PR title | Release |
+| --- | --- |
+| `fix: …` | patch |
+| `feat: …` | minor |
+| `feat!: …` or a `BREAKING CHANGE:` footer | major |
+| `docs:`, `chore:`, `test:`, `ci:`, `refactor:` … | none |
+
+PRs are squash-merged, so the **PR title** becomes the commit message; a check enforces the
+format.

@@ -1,0 +1,30 @@
+# Publishes to npm when a GitHub release is published.
+# Bump "version" in package.json and src/version.ts, merge, then create a release tagged vX.Y.Z.
+#
+# Uses npm trusted publishing (OIDC): no NPM_TOKEN secret needed. One-time setup on npmjs.com:
+# package "sigfox-js" → Settings → Trusted publishing → GitHub Actions,
+# repository septk/sigfox.js, workflow release.yml.
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - run: npm install -g npm@latest
+      - run: npm ci
+      - name: Tag matches package.json
+        run: test "v$(node -p 'require("./package.json").version')" = "${GITHUB_REF_NAME}"
+      - run: npm publish --access public

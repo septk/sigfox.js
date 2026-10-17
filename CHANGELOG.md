@@ -1,5 +1,9 @@
 # Changelog
 
+From 2.0.0 on, release notes are generated automatically on
+[GitHub Releases](https://github.com/septk/sigfox.js/releases). This file keeps the hand-written
+notes for the 2.0 rewrite.
+
 ## 2.0.0
 
 Full rewrite. See [MIGRATION.md](./MIGRATION.md).

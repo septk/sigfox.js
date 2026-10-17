@@ -1,6 +1,6 @@
 {
   "name": "sigfox-js",
-  "version": "2.0.0",
+  "version": "0.0.0-development",
   "description": "Typed, zero-dependency client for the Sigfox API v2",
   "keywords": [
     "sigfox",
@@ -57,9 +57,19 @@
     "@biomejs/biome": "^2.5.15",
     "@types/node": "^22",
     "@vitest/coverage-v8": "^5.0.5",
+    "semantic-release": "^25.0.9",
     "tsup": "^9.0.0",
     "typedoc": "^0.28.20",
     "typescript": "~6.0.0",
     "vitest": "^5.0.5"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "release": {
+    "branches": [
+      "master"
+    ]
   }
 }

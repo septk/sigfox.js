@@ -1,0 +1,19 @@
+# Squash-merged PRs use the PR title as the commit message, and semantic-release decides the next
+# version from it. This keeps titles in Conventional Commit form (feat: …, fix: …, feat!: …),
+# replacing the old local commitlint + husky hooks.
+name: PR title
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  conventional-title:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
